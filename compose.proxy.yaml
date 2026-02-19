@@ -1,0 +1,12 @@
+services:
+  php:
+    ports: !override
+      []
+    networks:
+      - proxy
+
+
+networks:
+  proxy:
+    name: proxy-net
+    external: true
