@@ -30,12 +30,15 @@ RUN set -eux; \
 		intl \
 		opcache \
 		zip \
+		xml \
 	;
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 ENV PHP_INI_SCAN_DIR=":$PHP_INI_DIR/app.conf.d"
+
+RUN git config --global --add safe.directory /app
 
 ###> recipes ###
 ###> doctrine/doctrine-bundle ###
@@ -58,8 +61,6 @@ FROM frankenphp_base AS frankenphp_dev
 ENV APP_ENV=dev
 ENV XDEBUG_MODE=off
 ENV FRANKENPHP_WORKER_CONFIG=watch
-
-RUN git config --global --add safe.directory /app
 
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
