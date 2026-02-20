@@ -64,5 +64,5 @@ test: ## Start tests with phpunit, pass the parameter "c=" to add options to php
 phpstan: ## start phpstan linter
 	@vendor/bin/phpstan analyse src tests
 
-psaml: ## start psaml linter
+psalm: ## start psalm linter
 	@./vendor/bin/psalm
