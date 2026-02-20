@@ -27,10 +27,7 @@
             "symfony/runtime": true
         },
         "bump-after-update": true,
-        "sort-packages": true,
-        "platform": {
-            "ext-xml": "1"
-        }
+        "sort-packages": true
     },
     "autoload": {
         "psr-4": {
