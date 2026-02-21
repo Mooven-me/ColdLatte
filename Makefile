@@ -56,7 +56,7 @@ cc: c=c:c ## Clear the cache
 cc: sf
 
 ## —— Code Analysis ———————————————————————————————————————————————————————————————
-lint: phpstan psaml ## start the code linter (psaml, phpstan) to detect unused code, type ...
+lint: phpstan psalm ## start the code linter (psalm, phpstan) to detect unused code, type ...
 
 test: ## Start tests with phpunit, pass the parameter "c=" to add options to phpunit, example: make test c="--group e2e --stop-on-failure"
 	@php bin/phpunit $(c)

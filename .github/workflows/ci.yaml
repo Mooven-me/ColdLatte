@@ -97,6 +97,9 @@ jobs:
       - name: Warm Symfony cache
         run: docker compose exec -T php bin/console cache:warmup --env=dev
 
+      - name: Run PHP Linters (Psalm & PHPStan)
+        run: docker compose exec -T php make lint
+
       - name: Lint Code Base
         uses: super-linter/super-linter/slim@v8
         env:
@@ -104,4 +107,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_CHECKOV: false
           VALIDATE_TRIVY: false
+          VALIDATE_PHP_PHPSTAN: false
+          VALIDATE_PHP_PSALM: false
           FILTER_REGEX_EXCLUDE: .*(vendor|var|node_modules|public/bundles)/.*
