@@ -73,33 +73,6 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build Docker images
-        uses: docker/bake-action@v6
-        with:
-          pull: true
-          load: true
-          source: .
-          files: |
-            compose.yaml
-            compose.override.yaml
-          set: |
-            *.cache-from=type=gha,scope=${{github.ref}}
-            *.cache-from=type=gha,scope=refs/heads/main
-            *.cache-to=type=gha,scope=${{github.ref}},mode=max
-
-      - name: Start services
-        run: docker compose up --wait --no-build
-
-      - name: Warm Symfony cache
-        run: docker compose exec -T php bin/console cache:warmup --env=dev
-
-      - name: Run PHP Linters (Psalm & PHPStan)
-        run: docker compose exec -T php make lint
-
       - name: Lint Code Base
         uses: super-linter/super-linter/slim@v8
         env:
@@ -107,7 +80,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_CHECKOV: false
           VALIDATE_TRIVY: false
-          VALIDATE_PHP_PHPSTAN: false
-          VALIDATE_PHP_PSALM: false
-          IGNORE_GITIGNORED_FILES: true
           FILTER_REGEX_EXCLUDE: .*(vendor|var|node_modules|public/bundles)/.*

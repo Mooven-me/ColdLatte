@@ -2,5 +2,6 @@
   "php84-xml",
   "php84-xmlwriter",
   "php84-simplexml",
-  "php84-dom"
+  "php84-dom",
+  "php84-fileinfo"
 ]
