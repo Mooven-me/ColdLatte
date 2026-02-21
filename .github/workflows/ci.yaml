@@ -109,4 +109,5 @@ jobs:
           VALIDATE_TRIVY: false
           VALIDATE_PHP_PHPSTAN: false
           VALIDATE_PHP_PSALM: false
+          IGNORE_GITIGNORED_FILES: true
           FILTER_REGEX_EXCLUDE: .*(vendor|var|node_modules|public/bundles)/.*
