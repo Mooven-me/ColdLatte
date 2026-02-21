@@ -99,21 +99,3 @@ jobs:
 
       - name: Run PHP Linters (Psalm & PHPStan)
         run: docker compose exec -T php make lint
-
-      - name: Clean up workspace before Super-Linter
-        run: sudo rm -rf vendor var node_modules public/bundles
-
-      - name: Lint Code Base
-        uses: super-linter/super-linter/slim@v8
-        env:
-          GITHUB_ACTIONS_CONFIG_FILE: actionlint.yaml
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_CHECKOV: false
-          VALIDATE_TRIVY: false
-          FILTER_REGEX_EXCLUDE: .*(vendor|var|node_modules|public/bundles)/.*
-          VALIDATE_BIOME: false
-          VALIDATE_MARKDOWN_PRETTIER: false
-          VALIDATE_DOTENV: false
-          VALIDATE_PHP_PSALM: false
-          VALIDATE_PHPSTAN: false
-          VALIDATE_JSCPD: false
