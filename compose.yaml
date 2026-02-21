@@ -57,6 +57,19 @@ services:
       # - ./docker/db/data:/var/lib/mysql:rw
 ###< doctrine/doctrine-bundle ###
 
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    image: node:latest
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./:/app
+      - /app/vendor
+      - /app/var
+    tty: true
+
 volumes:
   caddy_data:
   caddy_config:
