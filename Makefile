@@ -66,3 +66,6 @@ phpstan: ## start phpstan linter
 
 psalm: ## start psalm linter
 	@./vendor/bin/psalm
+
+generate-types: ## generates the types of objects returned based on OpenAPI doc. it allows you to get typescript types from symfony endpoints.
+	@docker compose exec node npm run generate-types
