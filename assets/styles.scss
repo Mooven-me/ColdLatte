@@ -1,3 +1,22 @@
+@import "bootstrap/scss/functions";
 
+$primary: rgb(155, 109, 48);
+$secondary: rgb(219, 188, 153);
+
+$body-bg-dark: rgb(36, 25, 13);
+$body-bg: $primary;
+
+$body-secondary-bg: tint-color($primary, 5%); 
+$body-tertiary-bg: shade-color($body-bg, 15%); 
+
+$body-secondary-bg-dark: shade-color($secondary, 40%); 
+$body-tertiary-bg-dark: tint-color($body-bg-dark, 15%); 
+
+$card-bg: rgba($primary, 0.1); 
 
 @import "bootstrap/scss/bootstrap";
+
+#root {
+    background-color: $secondary;
+    height: 100vh;
+}

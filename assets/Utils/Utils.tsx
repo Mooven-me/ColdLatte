@@ -1,88 +1,90 @@
+import type { paths } from '../api-types';
 
+type HttpMethod = "POST" | "GET" | "DELETE" | "PUT" | "PATCH";
 
+// Utility type to extract the success response from OpenAPI definitions
+type ExtractOpenApiResponse<
+    Path extends keyof paths,
+    Method extends HttpMethod
+> = Lowercase<Method> extends keyof paths[Path]
+    ? paths[Path][Lowercase<Method>] extends {
+          responses: {
+              200: { content: { "application/json": infer Res } };
+          };
+      }
+        ? Res
+        : never // Fallback if no 200 JSON response is defined
+    : never; // Fallback if method doesn't exist on path
 
-export const sendData = async ({route = "/", data = {}, method="POST", isFileDownload = false, basePath='api'}) => {
-    let options = {
+interface RouteArgs<Base extends string, Route extends string, Method extends HttpMethod> {
+    route: Route;
+    basePath?: Base;
+    method?: Method;
+    data?: object;
+}
+
+export const sendData = async <
+    Base extends string = "api",
+    Route extends string = string,
+    Method extends HttpMethod = "POST",
+    FullPath extends keyof paths = `/${Base}${Route}` extends keyof paths ? `/${Base}${Route}` : never
+>({
+    route,
+    data = {},
+    method = "POST" as Method,
+    basePath = "api" as Base,
+}: RouteArgs<Base, Route, Method>): Promise<ExtractOpenApiResponse<FullPath, Method> | { error: true; error_message: any }> => {
+    let options: { method: string; headers: Record<string, string>; body?: string } = {
         method: method,
         headers: {}
     }
-    // For file downloads, don't set Accept header to application/json
-    if (!isFileDownload) {
-        options.headers['Accept'] = 'application/json';
-    }
+    options.headers['Accept'] = 'application/json';
     
-    if(method === "POST"){
+    if (method === "POST") {
         options.headers['Content-Type'] = 'application/json';
         options.body = JSON.stringify(data);
     }
 
     try {
-        const response = await fetch("/"+basePath+route, options);
+        const response = await fetch("/" + basePath + route, options);
         
         if (response.status === 401) {
             let jwtResponse = await fetch("/api/token/refresh")
             if (!jwtResponse.ok) {
-                // il faut logout
                 setTimeout(() => {
                     window.location.href = '/';
                 }, 1500);
                 throw new Error("Votre session à expiré");
             }
-            return sendData({route:route, method:method, data:data, isFileDownload:isFileDownload});
+            // Pass the generic arguments back recursively
+            return sendData({ route, method, data, basePath });
         }
 
-        if(response.status === 500){
+        if (response.status === 500) {
             let result = await response.json()
             throw new Error(result.detail)
         }
         
-        // Handle file download
-        if (isFileDownload) {
-            if (!response.ok) {
-                throw new Error(`Téléchargement non réussi : ${response.statusText}`);
-            }
-            
-            // Get filename from Content-Disposition header
-            const contentDisposition = response.headers.get('Content-Disposition');
-            let filename = 'download';
-            
-            if (contentDisposition) {
-                const match = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
-                if (match && match[1]) {
-                    filename = match[1].replace(/['"]/g, '');
-                }
-            }
-            
-            // Convert to blob and trigger download
-            const blob = await response.blob();
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = filename;
-            
-            document.body.appendChild(a);
-            a.click();
-            
-            // Cleanup
-            URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-            
-            return { success: true, message: "File downloaded successfully" };
-        }
-        
-        // Handle regular JSON response
         const result = await response.json();
         
-        // Check if the response has an error and show notification
         if (result.error === 1 && result.error_message) {
             throw new Error(result.error_message);
         }
         
-        return result.data ?? {};
+        // Assert the returned value as your dynamically extracted type
+        return (result.data ?? result) as ExtractOpenApiResponse<FullPath, Method>;
         
     } catch (error) {
         return { error: true, error_message: error };
     }
+}
+
+export function sendDataLoader<
+    Route extends string,
+    Method extends HttpMethod
+>(route: Route, method: Method) {
+    return () => {
+        const promise = sendData({ route, method });
+        return { data: promise };
+    };
 }
