@@ -20,7 +20,7 @@ final class ServerController extends AbstractController
     ){
     }
 
-    #[Route('/', name: 'games', methods:"GET")]
+    #[Route('', name: 'games', methods:"GET")]
     #[Response(
         response: 200,
         description: "Returns an object containing the list of games",

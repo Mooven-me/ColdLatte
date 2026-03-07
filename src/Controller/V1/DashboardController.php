@@ -12,7 +12,7 @@ use OpenApi\Attributes\Response;
 #[Route('/dashboard')]
 final class DashboardController extends AbstractController
 {
-    #[Route('/', name: 'app_dashboard', methods:"GET")]
+    #[Route('', name: 'app_dashboard', methods:"GET")]
     #[Response(
         response: 200,
         description: "return dummy data",

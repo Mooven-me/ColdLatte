@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/servers')]
 final class ServersController extends AbstractController
 {
-    #[Route('/', name: 'app_servers')]
+    #[Route('', name: 'app_servers')]
     public function index(): Response
     {
         return new JsonResponse(["cucou"]);

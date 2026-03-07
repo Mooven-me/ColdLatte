@@ -24,15 +24,15 @@ interface RouteArgs<Base extends string, Route extends string, Method extends Ht
 }
 
 export const sendData = async <
-    Base extends string = "api",
+    Base extends string = "/api",
     Route extends string = string,
     Method extends HttpMethod = "POST",
-    FullPath extends keyof paths = `/${Base}${Route}` extends keyof paths ? `/${Base}${Route}` : never
+    FullPath extends keyof paths = `${Base}${Route}` extends keyof paths ? `${Base}${Route}` : never
 >({
     route,
     data = {},
     method = "POST" as Method,
-    basePath = "api" as Base,
+    basePath = "/api" as Base,
 }: RouteArgs<Base, Route, Method>): Promise<ExtractOpenApiResponse<FullPath, Method> | { error: true; error_message: any }> => {
     let options: { method: string; headers: Record<string, string>; body?: string } = {
         method: method,
