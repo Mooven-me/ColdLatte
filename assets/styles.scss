@@ -1,22 +1,40 @@
 @import "bootstrap/scss/functions";
 
-$primary: rgb(155, 109, 48);
-$secondary: rgb(219, 188, 153);
+$primary: #3F240D;
+$secondary: #EFEDE9;
+$secondary-dark: $secondary;
+$tertiary-color: #A6978F;
+$emphasis-color: $secondary;
+
+$body-color: $primary;
+$body-secondary-color: $secondary;
 
 $body-bg-dark: rgb(36, 25, 13);
 $body-bg: $primary;
 
-$body-secondary-bg: tint-color($primary, 5%); 
-$body-tertiary-bg: shade-color($body-bg, 15%); 
+$body-secondary-bg: shade-color($tertiary-color, 5%); 
+$body-tertiary-bg: #A6978F; 
 
 $body-secondary-bg-dark: shade-color($secondary, 40%); 
-$body-tertiary-bg-dark: tint-color($body-bg-dark, 15%); 
+$body-tertiary-bg-dark: #A6978F; 
+$body-color-dark: $primary;
 
 $card-bg: rgba($primary, 0.1); 
 
 @import "bootstrap/scss/bootstrap";
+$bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
+@import "bootstrap-icons/font/bootstrap-icons.scss";
 
 #root {
     background-color: $secondary;
     height: 100vh;
+}
+
+// Card zooming
+.hover-zoom {
+  transition: transform 0.5s ease; 
+}
+
+.hover-zoom:hover {
+  transform: scale(1.03); 
 }

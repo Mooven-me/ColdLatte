@@ -1,16 +1,17 @@
 import React, { Suspense } from "react";
-import { Await, useLoaderData } from "react-router";
-import { Card, CardBody, CardHeader, Container } from "reactstrap";
-import { sendData, sendDataLoader } from "../../Utils/Utils";
+import { Await, useLoaderData, useNavigate } from "react-router";
+import { Button, Card, CardBody, CardHeader, Container } from "reactstrap";
+import { sendDataLoader } from "../../Utils/Utils";
 
 export const dashboardLoader = sendDataLoader("/dashboard", "GET");
 
 export default function DashboardHome(): React.JSX.Element {
     
     const { data } = useLoaderData<typeof dashboardLoader>();
+    const navigate = useNavigate();
 
     return (
-        <Container>
+        <Container className="position-relative">
             <Card color="primary" outline>
                 <CardHeader>
                     Dashboard
@@ -28,6 +29,9 @@ export default function DashboardHome(): React.JSX.Element {
                     </Suspense>
                 </CardBody>
             </Card>
+            <Button className={"position-absolute top-0 end-0 m-2"} onClick={() => navigate('/games')} color="primary" >
+                <i className={"bi bi-plus-lg"}></i> Create a new server
+            </Button>
         </Container>
     );
 }

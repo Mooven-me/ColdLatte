@@ -3,6 +3,7 @@ import DashboardHome, { dashboardLoader } from "./Pages/Dashboard/DashboardHome"
 import Navbar from './Components/NavBar'
 import SideBar from './Components/SideBar'
 import { Col, Row } from 'reactstrap'
+import GameListHome, { GameListLoader } from './Pages/Games/GameListHome'
 
 let router = createBrowserRouter([
     {
@@ -13,18 +14,26 @@ let router = createBrowserRouter([
         path: "/dashboard",
         element: <DashboardHome/>,
         loader: dashboardLoader
-    }
+    },
+    {
+        path: "/games",
+        element: <GameListHome/>,
+        loader: GameListLoader
+    },
 ])
 
 export default function Router() {
     return (
-        <Row className='text-body vw-100 g-0'>
+        <Row className='text-body vw-100 vh-100 g-0'>
             <Col xs={2}>
                 <SideBar />
             </Col>
-            <Col>
+            <Col xs={10} className='h-100 d-flex flex-column'>
                 <Navbar/>
-                <RouterProvider router={router} />
+                <div className='flex-grow-1 overflow-y-scroll p-2'>
+                    <RouterProvider router={router} />
+                </div>
+                
             </Col>
         </Row>
     )

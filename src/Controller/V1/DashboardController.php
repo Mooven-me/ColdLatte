@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\V1;
 
 use OpenApi\Attributes\JsonContent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -9,10 +9,10 @@ use Symfony\Component\Routing\Attribute\Route;
 use OpenApi\Attributes\Property;
 use OpenApi\Attributes\Response;
 
-#[Route('/api')]
+#[Route('/dashboard')]
 final class DashboardController extends AbstractController
 {
-    #[Route('/dashboard', name: 'app_dashboard', methods:"GET")]
+    #[Route('/', name: 'app_dashboard', methods:"GET")]
     #[Response(
         response: 200,
         description: "return dummy data",
