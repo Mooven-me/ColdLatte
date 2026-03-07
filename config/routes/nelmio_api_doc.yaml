@@ -7,4 +7,8 @@ app.swagger:
 app.swagger_ui:
     path: /doc
     methods: GET
-    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+    # available themes : 
+    #   - nelmio_api_doc.controller.swagger_ui 
+    #   - nelmio_api_doc.controller.stoplight 
+    #   - nelmio_api_doc.controller.redocly 
+    defaults: { _controller: nelmio_api_doc.controller.redocly } 

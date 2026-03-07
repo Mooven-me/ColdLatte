@@ -21,3 +21,5 @@ phpstan.neon
 /node_modules/
 /public/build/
 ###< pentatrion/vite-bundle ###
+core.1
+

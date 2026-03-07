@@ -8,13 +8,14 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate-types" : "npx openapi-typescript http://coldlatte-php-1/api/doc.json -o ./assets/api-types.d.ts"
+    "generate-types": "npx openapi-typescript http://coldlatte-php-1/api/doc.json -o ./assets/api-types.d.ts"
   },
   "dependencies": {
     "@react-router/node": "^7.13.0",
     "@react-router/serve": "^7.13.0",
     "@vitejs/plugin-react": "^5.1.4",
     "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router": "^7.13.0",
