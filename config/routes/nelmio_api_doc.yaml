@@ -11,4 +11,4 @@ app.swagger_ui:
     #   - nelmio_api_doc.controller.swagger_ui 
     #   - nelmio_api_doc.controller.stoplight 
     #   - nelmio_api_doc.controller.redocly 
-    defaults: { _controller: nelmio_api_doc.controller.redocly } 
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui } 

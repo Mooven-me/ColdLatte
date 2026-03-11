@@ -30,6 +30,9 @@
         "symfony/yaml": "8.0.*"
     },
     "config": {
+        "platform": {
+            "php": "8.4"
+        },
         "allow-plugins": {
             "php-http/discovery": true,
             "phpstan/extension-installer": true,

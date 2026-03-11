@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/games')]
-final class ServerController extends AbstractController
+final class GamesController extends AbstractController
 {
 
     public function __construct(
@@ -20,10 +20,10 @@ final class ServerController extends AbstractController
     ){
     }
 
-    #[Route('', name: 'games', methods:"GET")]
+    #[Route('', name: 'games', methods:'GET')]
     #[Response(
         response: 200,
-        description: "Returns an object containing the list of games",
+        description: 'Returns an object containing the list of games',
         content: new JsonContent(
             ref: new Model(type: Games::class) 
         )

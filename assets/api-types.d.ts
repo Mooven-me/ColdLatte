@@ -36,21 +36,21 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/servers": {
+    "/api/v1/servers/{slug}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["get_app_servers"];
-        put: operations["put_app_servers"];
-        post: operations["post_app_servers"];
-        delete: operations["delete_app_servers"];
-        options: operations["options_app_servers"];
-        head: operations["head_app_servers"];
-        patch: operations["patch_app_servers"];
-        trace: operations["trace_app_servers"];
+        get: operations["get_servers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
 }
 export type webhooks = Record<string, never>;
@@ -60,16 +60,61 @@ export interface components {
             title: string;
             imageUrl: string;
             slug: string;
-            /** @default null */
-            coverUrl: string | null;
         };
         Traversable: Record<string, never>;
         Games: {
             /**
-             * @description The aggregated list of games from all providers
+             * @description An aggregated list of games
              * @default []
              */
             games: components["schemas"]["Game"][];
+            iterator: components["schemas"]["Traversable"];
+        };
+        /** @enum {string} */
+        Color: "primary" | "secondary";
+        ClassImage: {
+            /** @default null */
+            color: components["schemas"]["Color"] | null;
+            image: string;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            type: "class";
+        };
+        Image: {
+            image: string;
+        } & components["schemas"]["ClassImage"];
+        CurseForgeServer: {
+            imageUrl: string;
+            summary: string;
+            downloadCount: number;
+            categories: string[];
+            author: string;
+            date?: string | null;
+            version: string;
+            additionalData: string;
+            title: string;
+            slug: string;
+            apiLogo: components["schemas"]["Image"];
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            api: "curseforge";
+        };
+        Server: {
+            title: string;
+            imageUrl: string;
+            slug: string;
+            apiLogo: components["schemas"]["Image"];
+        } & components["schemas"]["CurseForgeServer"];
+        Servers: {
+            /**
+             * @description An aggregated list of servers
+             * @default []
+             */
+            servers: components["schemas"]["Server"][];
             iterator: components["schemas"]["Traversable"];
         };
     };
@@ -124,139 +169,25 @@ export interface operations {
             };
         };
     };
-    get_app_servers: {
+    get_servers: {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
+            path: {
+                slug: string;
             };
-        };
-    };
-    put_app_servers: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            default: {
+            /** @description Returns an object containing the list of the servers of a specifig game by its slug */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
-            };
-        };
-    };
-    post_app_servers: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
+                content: {
+                    "application/json": components["schemas"]["Servers"];
                 };
-                content?: never;
-            };
-        };
-    };
-    delete_app_servers: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    options_app_servers: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    head_app_servers: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    patch_app_servers: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    trace_app_servers: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };

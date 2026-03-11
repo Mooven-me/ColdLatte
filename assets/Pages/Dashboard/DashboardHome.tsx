@@ -1,13 +1,17 @@
 import React, { Suspense } from "react";
-import { Await, useLoaderData, useNavigate } from "react-router";
+import { Await, data, useLoaderData, useNavigate } from "react-router";
 import { Button, Card, CardBody, CardHeader, Container } from "reactstrap";
-import { sendDataLoader } from "../../Utils/Utils";
+import { apiClient } from "../../Utils/Utils";
 
-export const dashboardLoader = sendDataLoader("/dashboard", "GET");
+export const dashboardLoader = () => (
+    {
+        response: apiClient.GET("/api/v1/dashboard")
+    }
+);
 
 export default function DashboardHome(): React.JSX.Element {
     
-    const { data } = useLoaderData<typeof dashboardLoader>();
+    const { response } = useLoaderData<typeof dashboardLoader>();
     const navigate = useNavigate();
 
     return (
@@ -18,10 +22,10 @@ export default function DashboardHome(): React.JSX.Element {
                 </CardHeader>
                 <CardBody>
                     <Suspense fallback={<div>Loading ...</div>}>
-                        <Await resolve={data}>
-                            {(value) => (
+                        <Await resolve={response}>
+                            {({ data }) => (
                                 <div>
-                                    {JSON.stringify(value)}
+                                    {JSON.stringify(data)}
                                 </div>
                             )}
                             

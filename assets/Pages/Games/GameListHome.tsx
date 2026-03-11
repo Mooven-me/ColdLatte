@@ -1,34 +1,40 @@
 import { Await, useLoaderData, useNavigate } from "react-router";
-import { sendDataLoader } from "../../Utils/Utils";
+import { apiClient } from "../../Utils/Utils";
 import { Suspense } from "react";
-import ImageCard from "../../Components/ImageCard";
-import { Col, Row } from "reactstrap";
+import { Col, Container, Row } from "reactstrap";
+import CardFactory from "../../Components/Card/CardFactory";
 
-export const GameListLoader = sendDataLoader("/v1/games", "GET");
+export const GameListLoader = () => (
+    {
+        response: apiClient.GET("/api/v1/games")
+    }
+)
 
 export default function GameListHome() {
-    const { data } = useLoaderData<typeof GameListLoader>()
+    const { response } = useLoaderData<typeof GameListLoader>()
     const navigate = useNavigate();
     return (
         <Suspense>
-            <Await resolve={data}>
-                {(result) => {
-                        if('error' in result){
-                            return <>An error append : {result.error_message}</>
+            <Await resolve={response}>
+                {({ data }) => {
+                        if(!data){
+                            return <>An error append, please reload the page</>
                         }
                         return (
-                            <Row>
-                                {
-                                    result.games.map((game, index) =>
-                                        <Col xs={12} lg={6} xxl={4} key={index} className="p-3">
-                                            <ImageCard
-                                                {...game}
-                                                onClick={() => navigate(game.slug)}
-                                            />
-                                        </Col>
-                                    )
-                                }
+                            <Row className="gx-0">
+                            {
+                                data.games.map((game, index) =>
+                                    <Col xs={12} lg={6} key={index} className="p-3">
+                                        <CardFactory
+                                            type={"game"}
+                                            {...game}
+                                            onClick={() => navigate(game.slug)}
+                                        />
+                                    </Col>
+                                )
+                            }
                             </Row>
+                            
                         )
                     }
                 }
