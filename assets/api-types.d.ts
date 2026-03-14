@@ -36,7 +36,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/servers/{slug}": {
+    "/api/v1/servers/{gameSlug}": {
         parameters: {
             query?: never;
             header?: never;
@@ -44,6 +44,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["get_servers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/servers/{apiSlug}/{serverId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get_server"];
         put?: never;
         post?: never;
         delete?: never;
@@ -92,10 +108,10 @@ export interface components {
             categories: string[];
             author: string;
             date?: string | null;
-            version: string;
+            version?: string | null;
             additionalData: string;
             title: string;
-            slug: string;
+            id: string;
             apiLogo: components["schemas"]["Image"];
             /**
              * @description discriminator enum property added by openapi-typescript
@@ -106,7 +122,7 @@ export interface components {
         Server: {
             title: string;
             imageUrl: string;
-            slug: string;
+            id: string;
             apiLogo: components["schemas"]["Image"];
         } & components["schemas"]["CurseForgeServer"];
         Servers: {
@@ -174,7 +190,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                slug: string;
+                gameSlug: string;
             };
             cookie?: never;
         };
@@ -187,6 +203,31 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Servers"];
+                };
+            };
+        };
+    };
+    get_server: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                apiSlug: string;
+                serverId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returns an object containing a server */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        server?: components["schemas"]["Server"];
+                    };
                 };
             };
         };

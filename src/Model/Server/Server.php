@@ -29,8 +29,8 @@ class Server{
     public function getImageUrl(): string {
         return $this->apiResponse['image'];
     }
-    public function getSlug(): string {
-        return $this->apiResponse['slug'];
+    public function getId(): string {
+        return $this->apiResponse['id'];
     }
     #[Property(ref: new Model(type: Image::class))]
     public function getApiLogo(): ClassImage {

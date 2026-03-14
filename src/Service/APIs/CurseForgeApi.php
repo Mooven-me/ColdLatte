@@ -16,7 +16,6 @@ use Symfony\Contracts\Cache\ItemInterface;
 class CurseForgeApi implements ApiInterface{
 
     private HttpClientInterface $client;
-
     private array $excludeList = [
         5021, 4741, 5026, 5230, 5001
     ];
@@ -38,6 +37,10 @@ class CurseForgeApi implements ApiInterface{
         );
     }
 
+    public static function getType(): string{
+        return 'curseforge';
+    }
+
     /**
      * to get all the games the curseForgeAPI is connected to
      * @return Games<CurseForgeGame> the array of the games
@@ -55,11 +58,14 @@ class CurseForgeApi implements ApiInterface{
         });
     }
 
-    public function getServers(string $slug) : Servers{
-        $game = $this->getGames()->find($slug);
+    /**
+     * @param string $gameSlug
+     * @return Servers<CurseForgeServer>
+     */
+    public function getServers(string $gameSlug) : Servers{
+        $game = $this->getGames()->find($gameSlug);
         
-        $this->cache->delete('servers.'.$slug);
-        return $this->cache->get('servers.'.$slug, function (ItemInterface $item) use ($game): Servers {
+        return $this->cache->get('servers.'.$gameSlug, function (ItemInterface $item) use ($game): Servers {
             $item->expiresAfter(3600);
             $servers = new Servers();
             $serversResponse = $this->client->request('GET', '/v1/mods/search', [
@@ -76,5 +82,19 @@ class CurseForgeApi implements ApiInterface{
             }
             return $servers;
         });
+    }
+
+    public function getServer(string $serverId) : CurseForgeServer {
+        return $this->cache->get('servers.'.$serverId, function (ItemInterface $item) use ($serverId): CurseForgeServer {
+            $item->expiresAfter(3600);
+            $serverResponse = $this->client->request('GET', '/v1/mods/'.$serverId)
+                ->toArray()['data'];
+            return new CurseForgeServer($serverResponse);
+        });
+    }
+
+    public function createServer(string $serverId) : mixed {
+        
+        return true;
     }
 }

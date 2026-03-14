@@ -21,5 +21,23 @@ interface ApiInterface
      * @param string $slug the game's slug to get the servers from
      * @return Servers
      */
-    public function getServers(string $slug) : Servers;
+    public function getServers(string $gameSlug) : Servers;
+
+    /**
+     * return only one server related to the id of the server
+     * @param string $serverId
+     */
+    public function getServer(string $serverId) : Server;
+
+    /**
+     * the type of the api is use in the url to find the current api that manage a server
+     * @return string the api type
+     */
+    public static function getType(): string;
+
+    /**
+     * to create a server
+     * @return mixed
+     */
+    public function createServer(string $serverId) : mixed;
 }

@@ -5,6 +5,7 @@ import SideBar from './Components/SideBar'
 import { Col, Row } from 'reactstrap'
 import GameListHome, { GameListLoader } from './Pages/Games/GameListHome'
 import ServersListHome, { ServersListLoader } from './Pages/Servers/ServersListHome'
+import ServerHome, { ServerHomeLoader } from './Pages/Servers/ServerHome'
 
 let router = createBrowserRouter([
     {
@@ -22,9 +23,14 @@ let router = createBrowserRouter([
         loader: GameListLoader
     },
     {
-        path: "/games/:slug",
+        path: "/games/:gameSlug",
         element: <ServersListHome />,
         loader: ServersListLoader
+    },
+    {
+        path: "/games/:gameSlug/:apiSlug/:serverId",
+        element: <ServerHome />,
+        loader: ServerHomeLoader
     }
 ])
 

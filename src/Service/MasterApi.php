@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Model\Game\Games;
 use App\Model\Server\Servers;
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 
 class MasterApi{
     /**
@@ -25,10 +26,10 @@ class MasterApi{
         return $games;
     }
 
-    public function getServers(string $slug): Servers {
+    public function getServers(string $gameSlug): Servers {
         $servers = new Servers();
         foreach($this->apis as $api){
-            $servers->merge($api->getServers($slug));
+            $servers->merge($api->getServers($gameSlug));
         } 
         return $servers;
     }

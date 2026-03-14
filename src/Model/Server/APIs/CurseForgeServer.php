@@ -7,10 +7,6 @@ use DateTime;
 use Symfony\Component\Serializer\Attribute\Ignore;
 
 class CurseForgeServer extends Server {
-    #[Ignore]
-    public function getId(): int {
-        return $this->apiResponse['id'];
-    }
     public function getImageUrl(): string {
         return $this->apiResponse['logo']['thumbnailUrl'];
     }

@@ -6,10 +6,10 @@ import CardFactory from "../../Components/Card/CardFactory";
 
 export const ServersListLoader = ({ params }: LoaderFunctionArgs) => (
     {
-        response: apiClient.GET("/api/v1/servers/{slug}", {
+        response: apiClient.GET("/api/v1/servers/{gameSlug}", {
             params: {
                 path: {
-                    slug: params.slug as string 
+                    gameSlug: params.gameSlug as string 
                 }
             }
         })
@@ -33,7 +33,7 @@ export default function ServersListHome(){
                                             <CardFactory
                                                 type={"server"}
                                                 {...server}
-                                                onClick={() => navigate(server.slug)}
+                                                onClick={() => navigate(server.api+'/'+server.id)}
                                             />
                                         </Col>
                                     )
