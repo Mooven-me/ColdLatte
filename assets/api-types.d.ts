@@ -61,7 +61,7 @@ export interface paths {
         };
         get: operations["get_server"];
         put?: never;
-        post?: never;
+        post: operations["post_create_server"];
         delete?: never;
         options?: never;
         head?: never;
@@ -229,6 +229,26 @@ export interface operations {
                         server?: components["schemas"]["Server"];
                     };
                 };
+            };
+        };
+    };
+    post_create_server: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                apiSlug: string;
+                serverId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

@@ -6,6 +6,7 @@ use App\Model\Game\Games;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use App\Model\Server\Server;
 use App\Model\Server\Servers;
+use App\Service\Hosters\HosterInterface;
 
 #[AutoconfigureTag('app.apis')]
 interface ApiInterface
@@ -39,5 +40,5 @@ interface ApiInterface
      * to create a server
      * @return mixed
      */
-    public function createServer(string $serverId) : mixed;
+    public function createServer(string $serverId, HosterInterface $hosterInterface) : mixed;
 }

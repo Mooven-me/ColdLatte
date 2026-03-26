@@ -10,6 +10,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Model\Server\Servers;
 use App\Model\Game\APIs\CurseForgeGame;
 use App\Model\Server\APIs\CurseForgeServer;
+use App\Service\Hosters\HosterInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
@@ -21,9 +22,10 @@ class CurseForgeApi implements ApiInterface{
     ];
 
     public function __construct(
-        #[Autowire(env: 'CURSEFORGE_API_KEY')] string $apiKey,
+        #[Autowire(env: 'CURSEFORGE_API_KEY')] 
+        private string $apiKey,
         HttpClientInterface $client,
-        private readonly CacheInterface $cache
+        private CacheInterface $cache,
     ) {
         // init the client
         $this->client = $client->withOptions(
@@ -93,8 +95,9 @@ class CurseForgeApi implements ApiInterface{
         });
     }
 
-    public function createServer(string $serverId) : mixed {
-        
+    public function createServer(string $serverId, HosterInterface $hosterInterface) : mixed {
+        $server = $this->getServer($serverId);
+        $hosterInterface->host($server);
         return true;
     }
 }

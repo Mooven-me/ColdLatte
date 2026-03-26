@@ -19,7 +19,7 @@ export const ServerHomeLoader = ({ params }: LoaderFunctionArgs) => (
 
 export const CreateServer = ({ params }: LoaderFunctionArgs) => (
     {
-        response: apiClient.GET("/api/v1/servers/create/{apiSlug}/{serverId}", {
+        response: apiClient.POST("/api/v1/servers/{apiSlug}/{serverId}", {
             params: {
                 path: {
                     apiSlug: params.apiSlug as string, 
@@ -84,7 +84,7 @@ export default function ServerHome(){
                                     <Col xs={12} sm={6}>
                                         <Card color="primary" outline className="d-flex flex-row align-items-center gap-2 p-2 justify-content-between">
                                             <div>
-                                                Requirement (//TODO)
+                                                Requirement (//TODO) tkt 8Go de ram 
                                             </div>
                                             <div className="justify-content-center w-auto>">
                                                 <Button color="primary" onClick={() => CreateServer({params} as LoaderFunctionArgs)}>Start the server</Button>

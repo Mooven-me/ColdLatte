@@ -5,6 +5,7 @@ namespace App\Controller\V1;
 use App\Model\Server\Server;
 use App\Model\Server\Servers;
 use App\Service\ApiRegistry;
+use App\Service\Hosters\Ovh\OvhHoster;
 use App\Service\MasterApi;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
@@ -48,11 +49,11 @@ final class ServersController extends AbstractController
         ]);
     }
 
-    #[Route('/{apiSlug}/{serverId}', name: 'create_server', methods: 'GET')]
-    public function createServer(string $apiSlug, string $serverId, ApiRegistry $apiRegistry){
+    #[Route('/{apiSlug}/{serverId}', name: 'create_server', methods: 'POST')]
+    public function createServer(string $apiSlug, string $serverId, ApiRegistry $apiRegistry, OvhHoster $ovh){
         $api = $apiRegistry->getApi($apiSlug);
         return $this->json([
-            'status' => $api->createServer($serverId)
+            'status' => $api->createServer($serverId, $ovh)
         ]);
     }
 }
