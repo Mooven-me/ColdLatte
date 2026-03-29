@@ -1,7 +1,10 @@
 import createClient from 'openapi-fetch';
 import type { paths } from '../api-types';
 
-export const apiClient = createClient<paths>({ baseUrl: "/" });
+export const apiClient = createClient<paths>({
+   baseUrl: "/",
+   credentials: "include"
+});
 
 export const formatNumber = (number: number) => {
   return Intl.NumberFormat('en-US', {

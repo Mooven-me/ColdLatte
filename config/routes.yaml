@@ -7,6 +7,14 @@
 # To list all registered routes, run the following command:
 #   bin/console debug:router
 
+api_login_check:
+    path: /auth/login
+    methods: POST
+
+api_refresh_token:
+    path: /auth/refresh
+    methods: POST
+
 controllers:
     resource: routing.controllers
 
