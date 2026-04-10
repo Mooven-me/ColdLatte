@@ -69,6 +69,7 @@ services:
       - ./:/app
       - /app/vendor
       - /app/var
+      - /app/node_modules
     tty: true
 
 volumes:
